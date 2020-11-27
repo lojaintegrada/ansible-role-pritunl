@@ -2,7 +2,29 @@
 # install
 pritunl_version: 1.28.1548.86
 pritunl_mongodb_version: 3.4
+
+# prituntl apt
+pritunl_deb_url: "https://github.com/pritunl/pritunl/releases/download/{{ pritunl_version }}/pritunl_{{ pritunl_version }}-0ubuntu1.{{ pritunl_dist }}_{{ pritunl_arch }}.deb"
+pritunl_apt_repo: "deb http://repo.pritunl.com/stable/apt {{ pritunl_dist }} main"
+pritunl_dist: focal
+pritunl_arch: amd64
+
+pritunl_apt_keyserver: keyserver.ubuntu.com
+pritunl_apt_keyserver_id: 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+
+
+pritunl_dependencies:
+  - python
+  - net-tools
+  - openvpn
+  - openssl
+  - bridge-utils
+  - ca-certificates
+
+# mongodb apt
 pritunl_mongodb_external: False
+pritunl_mongodb_apt_key_url: https://www.mongodb.org/static/pgp/server-3.4.asc
+pritunl_mongodb_apt_repo: "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/{{ pritunl_mongodb_version }} multiverse"
 
 # configuration
 pritunl_increase_open_limit_file: True
