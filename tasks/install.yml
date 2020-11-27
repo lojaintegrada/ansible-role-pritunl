@@ -33,22 +33,25 @@
     update_cache: no
   when: not pritunl_mongodb_external and pritunl_mongodb_version is defined
 
+- name: Add apt key
+  apt_key:
+    keyserver: "{{ pritunl_apt_keyserver }}"
+    id: "{{ pritunl_apt_keyserver_id }}"
+
+- name: Add pritunl apt repository
+  apt_repository:
+    repo: "{{ pritunl_apt_repo }}"
+    state: present
+
 - block:
   - name: Ensures pritunl dependencies are installed
     apt:
       name: "{{ item }}"
       state: latest
       update_cache: no
-    with_items:
-      - python
-      - net-tools
-      - openvpn
-      - openssl
-      - bridge-utils
-      - ca-certificates
+    with_items: "{{ pritunl_dependencies }}"
 
   - name: Download and install pritunl v{{ pritunl_version }}
     apt:
-      deb: "https://github.com/pritunl/pritunl/releases/download/{{ pritunl_version }}/pritunl_{{ pritunl_version }}-0ubuntu1.focal_amd64.deb"
-
+      deb: "{{ pritunl_deb_url }}"
   when: pritunl_check_deb.rc == 1
